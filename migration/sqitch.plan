@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=my_family_goal
+
+1.init_db 2023-02-20T13:29:47Z franc <franc@Frapuks> # create domain, table and index
