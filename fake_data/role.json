@@ -1,0 +1,14 @@
+[
+    {
+        "id" : 1,
+        "label" : "Visitor"
+    },
+    {
+        "id" : 2,
+        "label" : "Parent"
+    },
+    {
+        "id" : 3,
+        "label" : "Child"
+    }
+]

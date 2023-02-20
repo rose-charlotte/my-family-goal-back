@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "firstname": "François",
+        "lastname": "GRUNERT",
+        "pseudo": "Frapuks",
+        "email": "francoisgrunert@gmail.com",
+        "password": "adrienLeBg",
+        "role_id": 3
+    },
+    {
+        "id": 2,
+        "firstname": "Adrien",
+        "lastname": "BLANC",
+        "pseudo": "AdriBG",
+        "email": "adrienB@gmail.com",
+        "password": "JeSuisLePlusBeau",
+        "role_id": 2
+    },
+    {
+        "id": 3,
+        "firstname": "Adrien",
+        "lastname": "Haggani",
+        "pseudo": "AdriH",
+        "email": "adrienH@gmail.com",
+        "password": "FautQueJeVousRaconteUnTruc",
+        "role_id": 3
+    },
+    {
+        "id": 4,
+        "firstname": "Charlotte",
+        "lastname": "Rose",
+        "pseudo": "Zerossama",
+        "email": "Chacha@gmail.com",
+        "password": "OclockOuaisOuais",
+        "role_id": 2
+    },
+    {
+        "id": 5,
+        "firstname": "Marwane",
+        "lastname": "Ben Tekaya",
+        "pseudo": "Marwenn'",
+        "email": "MBT@gmail.com",
+        "password": "1234",
+        "role_id": 3
+    },
+    {
+        "id": 6,
+        "firstname": "Benjamin",
+        "lastname": "Nougadère",
+        "pseudo": "Benjam",
+        "email": "BNO@gmail.com",
+        "password": "QuandJeBossaisChezMicrosoft",
+        "role_id": 1
+    }
+]
