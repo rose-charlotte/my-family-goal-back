@@ -1,0 +1,105 @@
+{
+    "id": 1,
+    "name": "Moaï",
+    "tasks": [
+        {
+            "id": 1,
+            "title": "Faire une page en HTML",
+            "description": null,
+            "gain": 200,
+            "isComplete": false,
+            "family_id": 1
+        },
+        {
+            "id": 2,
+            "title": "faire un site en EJS",
+            "description": "Et n surtout pas oublier les commentaires sinon on capte rien",
+            "gain": 100,
+            "isComplete": false,
+            "family_id": 1
+        },
+        {
+            "id": 3,
+            "title": "Déployer",
+            "description": "Sur le serveur de ton choix, mais comme j'aime bien Elon Musk on pourrait faire sur un serveur AWS",
+            "gain": 500,
+            "isComplete": false,
+            "family_id": 1
+        }
+    ],
+    "rewards":[
+        {
+            "id": 1,
+            "title": "un 3e écran",
+            "price": 1000,
+            "isPurchase": false,
+            "family_id": 1
+        },
+        {
+            "id": 2,
+            "title": "un casque audio",
+            "price": 800,
+            "isPurchase": false,
+            "family_id": 1
+        },
+        {
+            "id": 3,
+            "title": "un stylo et du papier",
+            "price": 100,
+            "isPurchase": false,
+            "family_id": 1
+        }
+    ],
+    "members":[
+        {
+            "id": 1,
+            "firstname": "François",
+            "lastname": "GRUNERT",
+            "pseudo": "Frapuks",
+            "email": "francoisgrunert@gmail.com",
+            "password": "adrienLeBg",
+            "role_id": 3,
+            "credit": 100
+        },
+        {
+            "id": 2,
+            "firstname": "Adrien",
+            "lastname": "BLANC",
+            "pseudo": "AdriBG",
+            "email": "adrienB@gmail.com",
+            "password": "JeSuisLePlusBeau",
+            "role_id": 2,
+            "credit": 0
+        },
+        {
+            "id": 3,
+            "firstname": "Adrien",
+            "lastname": "Haggani",
+            "pseudo": "AdriH",
+            "email": "adrienH@gmail.com",
+            "password": "FautQueJeVousRaconteUnTruc",
+            "role_id": 3,
+            "credit": 250
+        },
+        {
+            "id": 4,
+            "firstname": "Charlotte",
+            "lastname": "Rose",
+            "pseudo": "Zerossama",
+            "email": "Chacha@gmail.com",
+            "password": "OclockOuaisOuais",
+            "role_id": 2,
+            "credit": 0
+        },
+        {
+            "id": 5,
+            "firstname": "Marwane",
+            "lastname": "Ben Tekaya",
+            "pseudo": "Marwenn'",
+            "email": "MBT@gmail.com",
+            "password": "1234",
+            "role_id": 3,
+            "credit": 700
+        }
+    ]
+}
