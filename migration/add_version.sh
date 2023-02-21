@@ -1,0 +1,1 @@
+sqitch add 1.init_db -n "create domain, table and index"
