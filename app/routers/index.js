@@ -9,4 +9,9 @@ router.use(mainRouter);
 import { authentificationRouter } from "./authentificationRouter.js";
 router.use(authentificationRouter);
 
+// 404
+router.use('/', (req, res) => {
+    res.status(404).json('error 404 - Page not found');
+})
+
 export {router};
