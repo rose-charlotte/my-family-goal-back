@@ -30,7 +30,7 @@ const familyController = {
             // generate new token
             const token = jwt.sign(userUpdated, process.env.SESSION_SECRET, {expiresIn: '1h'});
 
-            return res.json({token, family, "user": userUpdated});
+            return res.json({family, "user": userUpdated, token});
         } catch (error) {
             return res.status(500).json(error.message);
         }
