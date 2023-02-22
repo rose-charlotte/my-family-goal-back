@@ -28,9 +28,28 @@ const familyController = {
             req.session.user = userUpdated;
 
             // generate new token
-            const token = jwt.sign(userUpdated, process.env.SESSION_SECRET, {expiresIn: '1h'});
+            const token = jwt.sign(userUpdated, process.env.SESSION_SECRET, {expiresIn: '7 days'});
 
             return res.json({family, "user": userUpdated, token});
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+    
+    async get(req, res){
+        try {
+            const id = parseInt(req.params.id);
+            const user = req.session.user;
+
+            // find family
+            const family = await familyDatamapper.findById(id);
+            if(!family) throw new Error(`Cannot get family with id = ${id}`);
+            
+            // verif if link exist
+            const link = family.members.find(member => member.id === user.id);
+            if(!link) throw new Error(`Access Denied`);
+
+            return res.json(family);
         } catch (error) {
             return res.status(500).json(error.message);
         }
