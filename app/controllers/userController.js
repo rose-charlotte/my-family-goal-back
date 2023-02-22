@@ -22,7 +22,7 @@ const userController = {
             req.session.user = user;
             // create token jwt
             const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '1h'});
-            return res.json({token});
+            return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -54,7 +54,7 @@ const userController = {
 
             // create token jwt
             const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '1h'});
-            return res.json({token});
+            return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
         }
