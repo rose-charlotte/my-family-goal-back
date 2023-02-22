@@ -1,13 +1,13 @@
-import { authentificationDatamapper } from "../datamappers/index.js";
+import { userDatamapper } from "../datamappers/index.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-const authentificationController = {
+const userController = {
     async signin(req, res){
         try {
             // find user with email
             const email = req.body.email
-            const user = await authentificationDatamapper.findByEmail(email);
+            const user = await userDatamapper.findByEmail(email);
             if(!user) throw new Error('No user found');
             
             // check password
@@ -37,16 +37,16 @@ const authentificationController = {
             form.password = hash;
 
             // Check if email or pseudo already exist
-            const emailFound = await authentificationDatamapper.findByEmail(form.email);
+            const emailFound = await userDatamapper.findByEmail(form.email);
             if(emailFound){
                 throw new Error('Email already exist');
             } else {
-                const pseudoFound = await authentificationDatamapper.findByPseudo(form.pseudo);
+                const pseudoFound = await userDatamapper.findByPseudo(form.pseudo);
                 if(pseudoFound) throw new Error('Pseudo already exist');
             }
             
             // create user in DB
-            const user = await authentificationDatamapper.create(form);
+            const user = await userDatamapper.create(form);
             if(!user) throw new Error('Impossible to create user');
             
             // save user in session
@@ -61,4 +61,4 @@ const authentificationController = {
     }
 }
 
-export {authentificationController};
+export {userController};

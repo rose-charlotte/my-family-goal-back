@@ -5,9 +5,13 @@ const router = express.Router();
 import { mainRouter } from "./mainRouter.js";
 router.use(mainRouter);
 
-// authentificationRouter
-import { authentificationRouter } from "./authentificationRouter.js";
-router.use(authentificationRouter);
+// userRouter
+import { userRouter } from "./userRouter.js";
+router.use(userRouter);
+
+// family
+import { familyRouter } from "./familyRouter.js";
+router.use(familyRouter);
 
 // 404
 router.use('/', (req, res) => {

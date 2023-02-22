@@ -1,4 +1,5 @@
-import { authentificationController } from "./authentificationController.js";
 import { mainController } from "./mainController.js";
+import { userController } from "./userController.js";
+import { familyController } from "./familyController.js";
 
-export {authentificationController, mainController};
+export {mainController, userController, familyController};

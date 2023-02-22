@@ -1,9 +1,16 @@
 import {client} from "../services/database.js";
 
-const authentificationDatamapper = {
+const userDatamapper = {
     async findByEmail(email){
         const sql = `SELECT * FROM "user" WHERE email = $1`;
         const values = [email];
+        const result = await client.query(sql, values);
+        return result.rows[0];
+    },
+    
+    async findById(id){
+        const sql = `SELECT * FROM "user" WHERE id = $1`;
+        const values = [id];
         const result = await client.query(sql, values);
         return result.rows[0];
     },
@@ -23,7 +30,18 @@ const authentificationDatamapper = {
         const values = [form.firstname, form.lastname, form.pseudo, form.email, form.password];
         const result = await client.query(sql, values);
         return result.rows[0];
+    },
+    
+    async updateRole(id, roleId){
+        const sql = `
+            UPDATE "user"
+            SET role_id = $1
+            WHERE id = $2
+            RETURNING id, firstname, lastname, pseudo, email, role_id;`
+        const values = [roleId, id];
+        const result = await client.query(sql, values);
+        return result.rows[0];
     }
 }
 
-export {authentificationDatamapper};
+export {userDatamapper};

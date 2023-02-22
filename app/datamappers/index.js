@@ -1,3 +1,4 @@
-import { authentificationDatamapper } from "./authentificationDatamapper.js";
+import { userDatamapper } from "./userDatamapper.js";
+import { familyDatamapper } from "./familyDatamapper.js";
 
-export {authentificationDatamapper};
+export {userDatamapper, familyDatamapper};
