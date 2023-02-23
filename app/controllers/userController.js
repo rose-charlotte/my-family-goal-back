@@ -82,6 +82,20 @@ const userController = {
         } catch (error) {
             return res.status(500).json(error.message);            
         }
+    },
+
+    async delete(req, res){
+        try {
+            const id = parseInt(req.params.id);
+
+            // delete user
+            const linesCount = await userDatamapper.delete(id);
+            if(linesCount === 0) throw new Error(`Cannot delete user with id = ${id}`);
+
+            res.json(`Count of lines deleted : ${linesCount}`);
+        } catch (error) {
+            return res.status(500).json(error.message);            
+        }
     }
 }
 

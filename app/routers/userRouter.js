@@ -6,5 +6,6 @@ userRouter.post('/signin', userController.signin);
 userRouter.post('/signup', userController.signup);
 userRouter.get('/user/:id', userController.get);
 userRouter.patch('/user/:id', userController.update);
+userRouter.delete('/user/:id', userController.delete);
 
 export {userRouter};
