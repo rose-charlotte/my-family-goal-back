@@ -15,8 +15,9 @@ const sessionConfig = {
     resave: true,
     saveUninitialized: true,
     cookie: {
-        secure: false,
-        maxAge: (1000*60*60)
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: (1000*60*60),
+        httpOnly: true
     }
 };
 app.use(session(sessionConfig));

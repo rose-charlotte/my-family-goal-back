@@ -21,7 +21,7 @@ const userController = {
             // save user in session
             req.session.user = user;
             // create token jwt
-            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '1h'});
+            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
             return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
@@ -53,7 +53,7 @@ const userController = {
             req.session.user = user;
 
             // create token jwt
-            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '1h'});
+            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
             return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
