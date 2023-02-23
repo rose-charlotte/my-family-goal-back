@@ -65,6 +65,23 @@ const userController = {
         } catch (error) {
             return res.status(500).json(error.message);
         }
+    },
+    
+    async update(req, res){
+        try {
+            const id = parseInt(req.params.id);
+            const form = req.body;
+
+            // update user
+            const user = await userDatamapper.update(form, id);
+            if(!user) throw new Error('Impossible to update user');
+
+            // create token jwt
+            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
+            return res.json({user, token});
+        } catch (error) {
+            return res.status(500).json(error.message);            
+        }
     }
 }
 

@@ -47,13 +47,13 @@ const userDatamapper = {
         return result.rows[0];
     },
     
-    async updateRole(id, roleId){
+    async update(form, id){
         const sql = `
             UPDATE "user"
-            SET role_id = $1
-            WHERE id = $2
-            RETURNING id, firstname, lastname, pseudo, email, role_id;`
-        const values = [roleId, id];
+            SET firstname = $1, lastname = $2, pseudo = $3, email = $4
+            WHERE id = $5
+            RETURNING id, firstname, lastname, pseudo, email;`
+        const values = [form.firstname, form.lastname, form.pseudo, form.email, id];
         const result = await client.query(sql, values);
         return result.rows[0];
     }
