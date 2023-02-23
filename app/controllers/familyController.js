@@ -4,7 +4,7 @@ const familyController = {
     async create(req, res) {
         try {
             const form = req.body;
-            const user = req.session.user;
+            const user = req.user;
 
             // check if name already exist
             const alreadyExist = await familyDatamapper.findByName(form.name);
@@ -28,7 +28,7 @@ const familyController = {
     async get(req, res){
         try {
             const id = parseInt(req.params.id);
-            const user = req.session.user;
+            const user = req.user;
 
             // find family
             const family = await familyDatamapper.findById(id);

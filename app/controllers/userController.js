@@ -18,8 +18,7 @@ const userController = {
             // No error : User find, password valid
             // delete password property of user object
             delete user.password;
-            // save user in session
-            req.session.user = user;
+            
             // create token jwt
             const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
             return res.json({user, token});
@@ -48,9 +47,6 @@ const userController = {
             // create user in DB
             const user = await userDatamapper.create(form);
             if(!user) throw new Error('Impossible to create user');
-            
-            // save user in session
-            req.session.user = user;
 
             // create token jwt
             const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
