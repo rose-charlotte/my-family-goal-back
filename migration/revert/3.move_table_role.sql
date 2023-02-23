@@ -20,7 +20,7 @@ SET "role_id" = 3
 WHERE id IN (
     SELECT user_id
     FROM user_has_family
-    WHERE isParent = false
+    WHERE "isParent" = false
 );
 
 UPDATE "user"
@@ -28,10 +28,10 @@ SET "role_id" = 2
 WHERE id IN (
     SELECT user_id
     FROM user_has_family
-    WHERE isParent = true
+    WHERE "isParent" = true
 );
 
 ALTER TABLE user_has_family
-DROP COLUMN isParent;
+DROP COLUMN "isParent";
 
 COMMIT;

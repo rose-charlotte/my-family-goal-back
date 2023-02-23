@@ -2,7 +2,7 @@
 
 BEGIN;
 
-SELECT isParent
+SELECT "isParent"
 FROM user_has_family;
 
 ROLLBACK;

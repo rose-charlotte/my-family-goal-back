@@ -45,7 +45,7 @@ const familyDatamapper = {
                             'lastname', lastname,
                             'pseudo', pseudo,
                             'email', email,
-                            'role_id', role_id,
+                            'isParent', "isParent",
                             'credit', credit
                         )
                     ) AS members
@@ -70,12 +70,12 @@ const familyDatamapper = {
         return result.rows[0];
     },
 
-    async createLink(userId, familyId){
+    async createLink(userId, familyId, isParent){
         const sql = `
-            INSERT INTO user_has_family (user_id, family_id)
-            VALUES ($1, $2)
+            INSERT INTO user_has_family (user_id, family_id, "isParent")
+            VALUES ($1, $2, $3)
             RETURNING *;`
-        const values = [userId, familyId];
+        const values = [userId, familyId, isParent];
         const result = await client.query(sql, values);
         return result.rows[0];
     },
