@@ -8,20 +8,6 @@ const app = express();
 import cors from "cors";
 app.use(cors());
 
-// Config session
-// import session from "express-session";
-// const sessionConfig = {
-//     secret: process.env.SESSION_SECRET,
-//     resave: true,
-//     saveUninitialized: true,
-//     cookie: {
-//         secure: process.env.NODE_ENV !== "development",
-//         maxAge: (1000*60*60),
-//         httpOnly: true
-//     }
-// };
-// app.use(session(sessionConfig));
-
 // Config json & urlencoded
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
