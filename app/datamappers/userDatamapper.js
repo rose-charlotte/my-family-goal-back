@@ -56,7 +56,14 @@ const userDatamapper = {
         const values = [form.firstname, form.lastname, form.pseudo, form.email, id];
         const result = await client.query(sql, values);
         return result.rows[0];
-    }
+    },
+
+    async delete(id){
+        const sql = `DELETE FROM "user" WHERE id = $1;`
+        const values = [id];
+        const result = await client.query(sql, values);
+        return result.rowCount;
+    },
 }
 
 export {userDatamapper};
