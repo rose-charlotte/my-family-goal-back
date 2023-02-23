@@ -58,6 +58,18 @@ const userController = {
         } catch (error) {
             return res.status(500).json(error.message);
         }
+    },
+    
+    async get(req, res){
+        try {
+            const id = parseInt(req.params.id);
+
+            const user = await userDatamapper.findById(id);
+
+            return res.json(user);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
     }
 }
 
