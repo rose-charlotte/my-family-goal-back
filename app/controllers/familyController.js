@@ -53,6 +53,21 @@ const familyController = {
         } catch (error) {
             return res.status(500).json(error.message);
         }
+    },
+    
+    async update(req, res){
+        try {
+            const id = parseInt(req.params.id);
+            const form = req.body;
+            
+            // update family
+            const family = await familyDatamapper.update(form, id);
+            if(!family) throw new Error(`Cannot get family with id = ${id}`);
+
+            res.json(family);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
     }
 }
 

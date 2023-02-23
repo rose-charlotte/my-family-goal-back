@@ -78,6 +78,17 @@ const familyDatamapper = {
         const values = [userId, familyId];
         const result = await client.query(sql, values);
         return result.rows[0];
+    },
+
+    async update(form, id){
+        const sql = `
+            UPDATE family
+            SET name = $1
+            WHERE id = $2
+            RETURNING *;`
+        const values = [form.name, id];
+        const result = await client.query(sql, values);
+        return result.rows[0];
     }
 }
 

@@ -5,5 +5,6 @@ import { security } from "../services/security.js";
 
 familyRouter.post('/family', security.validateToken, familyController.create);
 familyRouter.get('/family/:id', security.validateToken, familyController.get);
+familyRouter.patch('/family/:id', familyController.update);
 
 export {familyRouter};
