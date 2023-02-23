@@ -2,8 +2,7 @@
 
 BEGIN;
 
-SELECT (id, label) FROM "role";
-SELECT (id, firstname, lastname, pseudo, email, password, role_id) FROM "user";
+SELECT (id, firstname, lastname, pseudo, email, password) FROM "user";
 SELECT (id, name) FROM "family";
 SELECT (user_id, family_id, credit) FROM "user_has_family";
 SELECT (id, title, description, gain, "isComplete", family_id) FROM "task";

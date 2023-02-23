@@ -10,12 +10,13 @@ const userDatamapper = {
     
     async findById(id){
         const sql = `
-            SELECT id, firstname, lastname, pseudo, email, role_id, (
+            SELECT id, firstname, lastname, pseudo, email, (
                 SELECT json_agg(
                     json_build_object(
                         'id', id,
                         'name', name,
-                        'credit', credit
+                        'credit', credit,
+                        'isParent', "isParent"
                     )
                 ) AS families
                 FROM family
@@ -40,7 +41,7 @@ const userDatamapper = {
         const sql = `
             INSERT INTO "user"(firstname, lastname, pseudo, email, password)
             VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, firstname, lastname, pseudo, email, role_id;`
+            RETURNING id, firstname, lastname, pseudo, email;`
         const values = [form.firstname, form.lastname, form.pseudo, form.email, form.password];
         const result = await client.query(sql, values);
         return result.rows[0];

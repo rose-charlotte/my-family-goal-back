@@ -8,12 +8,12 @@ INSERT INTO "role"(label) VALUES
 ('child');
 
 INSERT INTO "user"(firstname, lastname, pseudo, email, password, role_id) VALUES
-('François', 'GRUNERT', 'Frapuks', 'francoisgrunert@gmail.com', 'adrienLeBg', 3),
-('Adrien', 'BLANC', 'AdriBG', 'adrienB@gmail.com', 'JeSuisLePlusBeau', 2),
-('Adrien', 'Haggani', 'AdriH', 'adrienH@gmail.com', 'FautQueJeVousRaconteUnTruc', 3),
-('Charlotte', 'Rose', 'Zerossama', 'Chacha@gmail.com', 'OclockOuaisOuais', 2),
-('Marwane', 'Ben Tekaya', 'Marwenn', 'MBT@gmail.com', '1234', 3),
-('Benjamin', 'Nougadère', 'Benjam', 'BNO@gmail.com', 'QuandJeBossaisChezMicrosoft', 1);
+('François', 'GRUNERT', 'Frapuks', 'francoisgrunert@gmail.com', '$2b$10$SakdfubdCIaWkkC5iunBqek39tW7ZDecTsoQNXfUxViKJ5K9FRo6C', 3),
+('Adrien', 'BLANC', 'AdriBG', 'adrienB@gmail.com', '$2b$10$.Ger.B0cbGvX87B2desn.elNVYHrcT2ZmzOllSl6fbNOYT.zYLIVG', 2),
+('Adrien', 'Haggani', 'AdriH', 'adrienH@gmail.com', '$2b$10$4hCI/G/YLkEyrnJ7C3PsTOZz2bNG9uuE1JB.HL4ApC5CP/3ro3A6a', 3),
+('Charlotte', 'Rose', 'Zerossama', 'Chacha@gmail.com', '$2b$10$tquH8BH.o3zuZMkeGQp1UesFJrcFLgkt/UE5Xvu92ZT2EZ8oZ.nKW', 2),
+('Marwane', 'Ben Tekaya', 'Marwenn', 'MBT@gmail.com', '$2b$10$VjDhncJ6nHx3bq3Tk.3ruO3ISYpk23X5ptXuxLD29eeToyLPvxalC', 3),
+('Benjamin', 'Nougadère', 'Benjam', 'BNO@gmail.com', '$2b$10$S9lILcczF9Hy6GyzQoYNJO8trCZkQgG8WL473Zwz.qIGr/xvZWiy.', 1);
 
 INSERT INTO "family"(name) VALUES
 ('Moaï'),

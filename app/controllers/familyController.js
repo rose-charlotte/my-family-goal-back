@@ -1,6 +1,4 @@
 import { familyDatamapper } from "../datamappers/index.js";
-import { userDatamapper } from "../datamappers/index.js";
-import jwt from 'jsonwebtoken';
 
 const familyController = {
     async create(req, res) {
@@ -17,20 +15,11 @@ const familyController = {
             if(!family) throw new Error('Impossible to create family');
             
             // link user & family
-            const link = await familyDatamapper.createLink(user.id, family.id);
+            const isParent = true;
+            const link = await familyDatamapper.createLink(user.id, family.id, isParent);
             if(!link) throw new Error('Impossible to create link');
-
-            // update role to "parent"
-            const roleIdParent = 2;
-            const userUpdated = await userDatamapper.updateRole(user.id, roleIdParent);
             
-            // save update in session
-            req.session.user = userUpdated;
-
-            // generate new token
-            const token = jwt.sign(userUpdated, process.env.SESSION_SECRET, {expiresIn: '7 days'});
-
-            return res.json({family, "user": userUpdated, token});
+            return res.json(family);
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -46,7 +35,7 @@ const familyController = {
             if(!family) throw new Error(`Cannot get family with id = ${id}`);
             
             // verif if link exist
-            const link = family.members.find(member => member.id === user.id);
+            const link = family.members?.find(member => member.id === user.id);
             if(!link) throw new Error(`Access Denied`);
 
             return res.json(family);
