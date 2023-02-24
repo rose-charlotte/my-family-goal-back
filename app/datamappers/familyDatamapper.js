@@ -96,6 +96,27 @@ const familyDatamapper = {
         const values = [id];
         const result = await client.query(sql, values);
         return result.rowCount;
+    },
+
+    async updateRole(userId, familyId, isParent){
+        const sql = `
+            UPDATE user_has_family
+            SET "isParent" = $3
+            WHERE  user_id = $1 AND family_id = $2
+            RETURNING *;`
+        const values = [userId, familyId, isParent];
+        const result = await client.query(sql, values);
+        return result.rows[0];
+    },
+
+    async deleteLink(userId, familyId){
+        const sql = `
+            DELETE FROM user_has_family
+            WHERE user_id = $1
+            AND family_id = $2;`
+        const values = [userId, familyId];
+        const result = await client.query(sql, values);
+        return result.rowCount;
     }
 }
 
