@@ -63,7 +63,7 @@ const userDatamapper = {
         const values = [id];
         const result = await client.query(sql, values);
         return result.rowCount;
-    },
+    }
 }
 
 export {userDatamapper};

@@ -13,6 +13,10 @@ router.use(userRouter);
 import { familyRouter } from "./familyRouter.js";
 router.use(familyRouter);
 
+// reward
+import { rewardRouter } from "./rewardRouter.js";
+router.use(rewardRouter);
+
 // tasks
 import { taskRouter } from "./taskRouter.js";
 router.use(taskRouter);
