@@ -21,6 +21,10 @@ router.use(rewardRouter);
 import { taskRouter } from "./taskRouter.js";
 router.use(taskRouter);
 
+// search
+import { searchRouter } from "./searchRouter.js";
+router.use(searchRouter);
+
 // 404
 router.use('/', (req, res) => {
     res.status(404).json('error 404 - Page not found');
