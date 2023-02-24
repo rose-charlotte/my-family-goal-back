@@ -1,4 +1,5 @@
 import { familyDatamapper } from "../datamappers/index.js";
+import { userDatamapper } from "../datamappers/index.js";
 
 const familyController = {
     async create(req, res) {
@@ -68,6 +69,25 @@ const familyController = {
             if(linesCount === 0) throw new Error(`Cannot delete family with id = ${id}`);
 
             res.json(`Count of lines deleted : ${linesCount}`);
+        } catch (error) {
+        }
+    },
+    
+    async addMember(req, res){
+        try {
+            const familyId = parseInt(req.params.familyId);
+            const userId = parseInt(req.params.userId);
+
+            // get user
+            const user = await userDatamapper.findById(userId);
+            if(!user) throw new Error('No user found');
+
+            // create link
+            const isParent = false;
+            const link = await familyDatamapper.createLink(userId, familyId, isParent);
+            if(!link) throw new Error('Cannot create link');
+
+            res.json(user);
         } catch (error) {
             return res.status(500).json(error.message);
         }
