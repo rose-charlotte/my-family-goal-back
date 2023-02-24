@@ -8,5 +8,7 @@ familyRouter.get('/family/:id', security.validateToken, familyController.get);
 familyRouter.patch('/family/:id', security.validateToken, familyController.update);
 familyRouter.delete('/family/:id', security.validateToken, familyController.delete);
 familyRouter.post('/family/:familyId/user/:userId', familyController.addMember);
+familyRouter.patch('/family/:familyId/user/:userId', familyController.updateMember);
+familyRouter.delete('/family/:familyId/user/:userId', familyController.deleteMember);
 
 export {familyRouter};

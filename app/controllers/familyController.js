@@ -70,6 +70,7 @@ const familyController = {
 
             res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
+            return res.status(500).json(error.message);
         }
     },
     
@@ -87,7 +88,38 @@ const familyController = {
             const link = await familyDatamapper.createLink(userId, familyId, isParent);
             if(!link) throw new Error('Cannot create link');
 
-            res.json(user);
+            return res.json(user);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+    
+    async updateMember(req, res){
+        try {
+            const familyId = parseInt(req.params.familyId);
+            const userId = parseInt(req.params.userId);
+            const isParent = req.body.isParent;
+
+            // update role
+            const link = await familyDatamapper.updateRole(userId, familyId, isParent);
+            if(!link) throw new Error('Cannot update link');
+
+            return res.json(link);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    },
+
+    async deleteMember(req, res){
+        try {
+            const familyId = parseInt(req.params.familyId);
+            const userId = parseInt(req.params.userId);
+
+            // delete link
+            const linesCount = await familyDatamapper.deleteLink(userId, familyId);
+            if(linesCount === 0) throw new Error('Cannot delete link');
+
+            res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
             return res.status(500).json(error.message);
         }
