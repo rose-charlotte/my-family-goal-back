@@ -2,10 +2,10 @@ import { searchDatamapper } from "../datamappers/index.js";
 
 const searchController = {
     async searchUser(req, res){
+        const pseudo = req.body.pseudo;
+        
         try {
-            const pseudo = req.body.pseudo;
-
-            // search users with pseudo ILIKE req.body.pseudo
+            // search users
             const users = await searchDatamapper.searchUserByPseudo(pseudo);
 
             return res.json(users);

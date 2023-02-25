@@ -5,7 +5,7 @@ const taskDatamapper = {
         const sql = `
             INSERT INTO task(title, description, gain, family_id)
             VALUES ($1, $2, $3, $4)
-            RETURNING *;`
+            RETURNING *;`;
         const values = [form.title, form.description, form.gain, familyId];
         const result = await client.query(sql, values);
         return result.rows[0];
@@ -16,25 +16,28 @@ const taskDatamapper = {
             UPDATE task
             SET title = $1, description = $2, gain = $3, "isComplete" = $4
             WHERE id = $5
-            RETURNING *;`
+            RETURNING *;`;
         const values = [form.title, form.description, form.gain, form.isComplete, id];
         const result = await client.query(sql, values);
         return result.rows[0];
     },
 
     async delete(id){
-        const sql = `DELETE FROM task WHERE id = $1;`
+        const sql = `
+            DELETE FROM task
+            WHERE id = $1;`;
         const values = [id];
         const result = await client.query(sql, values);
         return result.rowCount;
     },
 
+    // COMPLETE TASK
     async complete(id){
         const sql = `
             UPDATE task
             SET "isComplete" = $1
             WHERE id = $2
-            RETURNING *;`
+            RETURNING *;`;
         const values = [true, id];
         const result = await client.query(sql, values);
         return result.rows[0];
@@ -45,7 +48,7 @@ const taskDatamapper = {
             UPDATE user_has_family
             SET credit = credit + $1
             WHERE user_id = $2 AND family_id = $3
-            RETURNING credit;`
+            RETURNING credit;`;
         const values = [gain, userId, familyId];
         const result = await client.query(sql, values);
         return result.rows[0];

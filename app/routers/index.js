@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 
-// mainRouter
+//* mainRouter à supprimer en prod
 import { mainRouter } from "./mainRouter.js";
 router.use(mainRouter);
 

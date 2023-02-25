@@ -3,10 +3,11 @@ import { userDatamapper } from "../datamappers/index.js";
 
 const familyController = {
     async create(req, res) {
-        try {
-            const form = req.body;
-            const user = req.user;
+        const form = req.body;
+        const user = req.user;
+        const isParent = true;
 
+        try {
             // check if name already exist
             const alreadyExist = await familyDatamapper.findByName(form.name);
             if(alreadyExist) throw new Error('Family name already exist');
@@ -16,7 +17,6 @@ const familyController = {
             if(!family) throw new Error('Impossible to create family');
             
             // link user & family
-            const isParent = true;
             const link = await familyDatamapper.createLink(user.id, family.id, isParent);
             if(!link) throw new Error('Impossible to create link');
             
@@ -27,10 +27,10 @@ const familyController = {
     },
     
     async get(req, res){
-        try {
-            const id = parseInt(req.params.id);
-            const user = req.user;
+        const id = parseInt(req.params.id);
+        const user = req.user;
 
+        try {
             // find family
             const family = await familyDatamapper.findById(id);
             if(!family) throw new Error(`Cannot get family with id = ${id}`);
@@ -46,10 +46,10 @@ const familyController = {
     },
     
     async update(req, res){
+        const id = parseInt(req.params.id);
+        const form = req.body;
+
         try {
-            const id = parseInt(req.params.id);
-            const form = req.body;
-            
             // update family
             const family = await familyDatamapper.update(form, id);
             if(!family) throw new Error(`Cannot get family with id = ${id}`);
@@ -61,9 +61,9 @@ const familyController = {
     },
 
     async delete(req, res){
+        const id = parseInt(req.params.id);
+
         try {
-            const id = parseInt(req.params.id);
-            
             // delete family
             const linesCount = await familyDatamapper.delete(id);
             if(linesCount === 0) throw new Error(`Cannot delete family with id = ${id}`);
@@ -75,16 +75,16 @@ const familyController = {
     },
     
     async addMember(req, res){
-        try {
-            const familyId = parseInt(req.params.familyId);
-            const userId = parseInt(req.params.userId);
+        const familyId = parseInt(req.params.familyId);
+        const userId = parseInt(req.params.userId);
+        const isParent = false;
 
+        try {
             // get user
             const user = await userDatamapper.findById(userId);
             if(!user) throw new Error('No user found');
 
             // create link
-            const isParent = false;
             const link = await familyDatamapper.createLink(userId, familyId, isParent);
             if(!link) throw new Error('Cannot create link');
 
@@ -95,11 +95,11 @@ const familyController = {
     },
     
     async updateMember(req, res){
-        try {
-            const familyId = parseInt(req.params.familyId);
-            const userId = parseInt(req.params.userId);
-            const isParent = req.body.isParent;
+        const familyId = parseInt(req.params.familyId);
+        const userId = parseInt(req.params.userId);
+        const isParent = req.body.isParent;
 
+        try {
             // update role
             const link = await familyDatamapper.updateRole(userId, familyId, isParent);
             if(!link) throw new Error('Cannot update link');
@@ -111,10 +111,10 @@ const familyController = {
     },
 
     async deleteMember(req, res){
+        const familyId = parseInt(req.params.familyId);
+        const userId = parseInt(req.params.userId);
+        
         try {
-            const familyId = parseInt(req.params.familyId);
-            const userId = parseInt(req.params.userId);
-
             // delete link
             const linesCount = await familyDatamapper.deleteLink(userId, familyId);
             if(linesCount === 0) throw new Error('Cannot delete link');
