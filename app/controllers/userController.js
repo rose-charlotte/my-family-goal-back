@@ -1,26 +1,28 @@
-import { userDatamapper } from "../datamappers/index.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { userDatamapper } from "../datamappers/index.js";
+import { security } from "../services/security.js";
 
 const userController = {
     async signin(req, res){
+        const email = req.body.email;
+        const password = req.body.password;
+
         try {
             // find user with email
-            const email = req.body.email
             const user = await userDatamapper.findByEmail(email);
             if(!user) throw new Error('No user found');
             
             // check password
-            const password = req.body.password;
             const isValidPassword = await bcrypt.compare(password, user.password);
             if (user && !isValidPassword) throw new Error('Invalid Password');
             
-            // No error : User find, password valid
             // delete password property of user object
             delete user.password;
             
             // create token jwt
-            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
+            const token = security.createToken(user);
+
             return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
@@ -28,28 +30,29 @@ const userController = {
     },
     
     async signup(req, res){
+        const form = req.body;
+        const saltRounds = 10;
+
         try {
-            const form = req.body;
             // hash password
-            const saltRounds = 10;
             const hash = await bcrypt.hash(form.password, saltRounds);
             form.password = hash;
 
-            // Check if email or pseudo already exist
+            // Check if email already exist
             const emailFound = await userDatamapper.findByEmail(form.email);
-            if(emailFound){
-                throw new Error('Email already exist');
-            } else {
-                const pseudoFound = await userDatamapper.findByPseudo(form.pseudo);
-                if(pseudoFound) throw new Error('Pseudo already exist');
-            }
+            if(emailFound) throw new Error('Email already exist');
+
+            // Check if pseudo already exist
+            const pseudoFound = await userDatamapper.findByPseudo(form.pseudo);
+            if(pseudoFound) throw new Error('Pseudo already exist');
             
             // create user in DB
             const user = await userDatamapper.create(form);
             if(!user) throw new Error('Impossible to create user');
 
             // create token jwt
-            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
+            const token = security.createToken(user);
+
             return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);
@@ -57,10 +60,12 @@ const userController = {
     },
     
     async get(req, res){
+        const id = parseInt(req.params.id);
+
         try {
-            const id = parseInt(req.params.id);
             // Find user
             const user = await userDatamapper.findById(id);
+
             return res.json(user);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -68,16 +73,17 @@ const userController = {
     },
     
     async update(req, res){
-        try {
-            const id = parseInt(req.params.id);
-            const form = req.body;
+        const id = parseInt(req.params.id);
+        const form = req.body;
 
+        try {
             // update user
             const user = await userDatamapper.update(form, id);
             if(!user) throw new Error('Impossible to update user');
 
             // create token jwt
-            const token = jwt.sign(user, process.env.SESSION_SECRET, {expiresIn: '7 days'});
+            const token = security.createToken(user);
+
             return res.json({user, token});
         } catch (error) {
             return res.status(500).json(error.message);            
@@ -85,9 +91,9 @@ const userController = {
     },
 
     async delete(req, res){
+        const id = parseInt(req.params.id);
+        
         try {
-            const id = parseInt(req.params.id);
-
             // delete user
             const linesCount = await userDatamapper.delete(id);
             if(linesCount === 0) throw new Error(`Cannot delete user with id = ${id}`);

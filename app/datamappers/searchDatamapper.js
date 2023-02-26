@@ -3,7 +3,7 @@ import {client} from "../services/database.js";
 const searchDatamapper = {
     async searchUserByPseudo(pseudo){
         const sql = `
-            SELECT *
+            SELECT id, firstname, lastname, pseudo, email
             FROM "user"
             WHERE pseudo ILIKE $1;`;
         const values = [`%${pseudo}%`];

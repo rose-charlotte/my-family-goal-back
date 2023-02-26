@@ -2,10 +2,10 @@ import { taskDatamapper } from "../datamappers/index.js";
 
 const taskController = {
     async create(req, res){
-        try {
-            const familyId = req.params.id;
-            const form = req.body;
+        const familyId = req.params.id;
+        const form = req.body;
 
+        try {
             // create task
             const task = await taskDatamapper.create(form, familyId);
             if(!task) throw new Error('Cannot create task');
@@ -17,10 +17,10 @@ const taskController = {
     },
 
     async update(req, res){
-        try {
-            const id = req.params.id;
-            const form = req.body;
+        const id = req.params.id;
+        const form = req.body;
 
+        try {
             // update task
             const task = await taskDatamapper.update(form, id);
             if(!task) throw new Error('Cannot update task');
@@ -32,9 +32,9 @@ const taskController = {
     },
 
     async delete(req, res){
-        try {
-            const id = req.params.id;
+        const id = req.params.id;
 
+        try {
             // delete task
             const linesCount = await taskDatamapper.delete(id);
             if(!linesCount) throw new Error(`Cannot delete task with id = ${id}`);
@@ -46,10 +46,10 @@ const taskController = {
     },
 
     async complete(req, res){
+        const taskId = req.params.taskId;
+        const userId = req.params.userId;
+        
         try {
-            const taskId = req.params.taskId;
-            const userId = req.params.userId;
-
             // update task
             const task = await taskDatamapper.complete(taskId);
             if(!task) throw new Error('Cannot complete task');

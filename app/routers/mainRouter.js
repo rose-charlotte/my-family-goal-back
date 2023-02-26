@@ -1,3 +1,5 @@
+//* à supprimer en prod
+
 import express from "express";
 const mainRouter = express.Router();
 import { mainController } from "../controllers/index.js";

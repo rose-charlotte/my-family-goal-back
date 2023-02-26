@@ -2,10 +2,10 @@ import { rewardDatamapper } from "../datamappers/index.js";
 
 const rewardController = {
     async create(req, res){
+        const familyId = req.params.id;
+        const form = req.body;
+        
         try {
-            const familyId = req.params.id;
-            const form = req.body;
-
             // create reward
             const reward = await rewardDatamapper.create(form, familyId);
             if(!reward) throw new Error('Cannot create reward');
@@ -17,10 +17,10 @@ const rewardController = {
     },
     
     async update(req, res){
-        try {
-            const id = req.params.id;
-            const form = req.body;
+        const id = req.params.id;
+        const form = req.body;
 
+        try {
             // update reward
             const reward = await rewardDatamapper.update(form, id);
             if(!reward) throw new Error('Cannot update reward');
@@ -32,9 +32,9 @@ const rewardController = {
     },
     
     async delete(req, res){
-        try {
-            const id = req.params.id;
+        const id = req.params.id;
 
+        try {
             // delete reward
             const linesCount = await rewardDatamapper.delete(id);
             if(!linesCount) throw new Error(`Cannot delete reward with id = ${id}`);
@@ -46,10 +46,10 @@ const rewardController = {
     },
     
     async purchase(req, res){
-        try {
-            const rewardId = req.params.rewardId;
-            const userId = req.params.userId;
+        const rewardId = +req.params.rewardId;
+        const userId = req.params.userId;
 
+        try {
             // TODO Vérifier si l'utilisateur a assez de crédits
 
             // update reward
