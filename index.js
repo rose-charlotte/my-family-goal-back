@@ -4,6 +4,31 @@ import "dotenv/config";
 import express from "express";
 const app = express();
 
+// Swagger Doc
+import expressJSDocSwagger from "express-jsdoc-swagger";
+import * as url from 'url';
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const options = {
+    info: {
+      version: '1.0.0',
+      title: 'My Family Goal',
+      license: {
+        name: 'MIT',
+      },
+    },
+    security: {
+      TokenAuth : {
+        type: 'http',
+        scheme: 'bearer'
+      }
+    },
+    baseDir: __dirname,
+    // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
+    filesPattern: './**/*.js',
+    swaggerUIPath: '/api-docs'
+  };
+  expressJSDocSwagger(app)(options);
+
 // Config cors
 import cors from "cors";
 app.use(cors());
