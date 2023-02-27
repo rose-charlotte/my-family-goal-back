@@ -16,14 +16,14 @@ const userController = {
             // check password
             const isValidPassword = await bcrypt.compare(password, user.password);
             if (user && !isValidPassword) throw new Error('Invalid Password');
-            
-            // delete password property of user object
-            delete user.password;
+
+            // récupère les infos du user à transmettre
+            const userConnected = await userDatamapper.findById(user.id);
             
             // create token jwt
             const token = security.createToken(user);
 
-            return res.json({user, token});
+            return res.json({"user" : userConnected, token});
         } catch (error) {
             return res.status(500).json(error.message);
         }
