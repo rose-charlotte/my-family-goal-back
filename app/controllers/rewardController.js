@@ -2,7 +2,7 @@ import { rewardDatamapper } from "../datamappers/index.js";
 
 const rewardController = {
     async create(req, res){
-        const familyId = req.params.id;
+        const familyId = req.params.familyId;
         const form = req.body;
         
         try {
@@ -17,12 +17,12 @@ const rewardController = {
     },
     
     async update(req, res){
-        const id = req.params.id;
+        const rewardId = req.params.rewardId;
         const form = req.body;
 
         try {
             // update reward
-            const reward = await rewardDatamapper.update(form, id);
+            const reward = await rewardDatamapper.update(form, rewardId);
             if(!reward) throw new Error('Cannot update reward');
 
             return res.json(reward);
@@ -32,12 +32,12 @@ const rewardController = {
     },
     
     async delete(req, res){
-        const id = req.params.id;
+        const rewardId = req.params.rewardId;
 
         try {
             // delete reward
-            const linesCount = await rewardDatamapper.delete(id);
-            if(!linesCount) throw new Error(`Cannot delete reward with id = ${id}`);
+            const linesCount = await rewardDatamapper.delete(rewardId);
+            if(!linesCount) throw new Error(`Cannot delete reward with rewardId = ${rewardId}`);
 
             return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {

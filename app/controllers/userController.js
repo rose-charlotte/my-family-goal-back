@@ -60,11 +60,11 @@ const userController = {
     },
     
     async get(req, res){
-        const id = parseInt(req.params.id);
+        const userId = parseInt(req.params.userId);
 
         try {
             // Find user
-            const user = await userDatamapper.findById(id);
+            const user = await userDatamapper.findById(userId);
 
             return res.json(user);
         } catch (error) {
@@ -73,12 +73,12 @@ const userController = {
     },
     
     async update(req, res){
-        const id = parseInt(req.params.id);
+        const userId = parseInt(req.params.userId);
         const form = req.body;
 
         try {
             // update user
-            const user = await userDatamapper.update(form, id);
+            const user = await userDatamapper.update(form, userId);
             if(!user) throw new Error('Impossible to update user');
 
             // create token jwt
@@ -91,12 +91,12 @@ const userController = {
     },
 
     async delete(req, res){
-        const id = parseInt(req.params.id);
+        const userId = parseInt(req.params.userId);
         
         try {
             // delete user
-            const linesCount = await userDatamapper.delete(id);
-            if(linesCount === 0) throw new Error(`Cannot delete user with id = ${id}`);
+            const linesCount = await userDatamapper.delete(userId);
+            if(linesCount === 0) throw new Error(`Cannot delete user with id = ${userId}`);
 
             res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {

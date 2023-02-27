@@ -10,6 +10,16 @@ const rewardDatamapper = {
         const result = await client.query(sql, values);
         return result.rows[0];
     },
+
+    async findById(rewardId){
+        const sql = `
+            SELECT *
+            FROM reward
+            WHERE id = $1;`;
+        const values = [rewardId];
+        const result = await client.query(sql, values);
+        return result.rows[0];
+    },
     
     async update(form, id){
         const sql = `
