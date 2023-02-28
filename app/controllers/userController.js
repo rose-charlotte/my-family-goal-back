@@ -98,7 +98,7 @@ const userController = {
             if (currentUser && !isValidPassword) throw new Error('Invalid Password');
 
             // hash new password
-            const hash = await bcrypt.hash(form.password, saltRounds);
+            const hash = await bcrypt.hash(form.newPassword, saltRounds);
             form.newPassword = hash;
 
             // update user
