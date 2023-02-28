@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { rewardDatamapper, taskDatamapper, userDatamapper } from '../datamappers/index.js';
+import { userDatamapper } from '../datamappers/index.js';
 import { utils } from './utils.js';
 
 const security = {
@@ -22,7 +22,7 @@ const security = {
         const userId = req.user.id;
         
         try {
-            const familyId = await utils.getFamilyId();
+            const familyId = await utils.getFamilyId(req, res);
 
             const user = await userDatamapper.findById(userId);
 
@@ -48,13 +48,12 @@ const security = {
     async checkLinkExist(req, res, next){
         const userId = req.user.id;
         try {
-            const familyId = await utils.getFamilyId();
+            const familyId = await utils.getFamilyId(req, res);
 
             const user = await userDatamapper.findById(userId);
 
             const link = user.families.find(family => family.id === familyId);
             if(!link) throw new Error('Acces denied');
-
             next();
         } catch (error) {
             return res.status(401).json(error.message);

@@ -1,5 +1,5 @@
-import { familyDatamapper } from "../datamappers/index.js";
-import { userDatamapper } from "../datamappers/index.js";
+import { familyDatamapper, userDatamapper } from "../datamappers/index.js";
+import { schemas } from "../services/validation.js";
 
 const familyController = {
     async create(req, res) {
@@ -8,6 +8,9 @@ const familyController = {
         const isParent = true;
 
         try {
+            // validation
+            await schemas.createUpdateFamily.validateAsync(form);
+
             // check if name already exist
             const alreadyExist = await familyDatamapper.findByName(form.name);
             if(alreadyExist) throw new Error('Family name already exist');
@@ -27,13 +30,16 @@ const familyController = {
     },
     
     async get(req, res){
-        const id = parseInt(req.params.familyId);
+        const familyId = parseInt(req.params.familyId);
         const user = req.user;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+
             // find family
-            const family = await familyDatamapper.findById(id);
-            if(!family) throw new Error(`Cannot get family with id = ${id}`);
+            const family = await familyDatamapper.findById(familyId);
+            if(!family) throw new Error(`Cannot get family with familyId = ${familyId}`);
             
             // verif if link exist
             const link = family.members?.find(member => member.id === user.id);
@@ -46,13 +52,17 @@ const familyController = {
     },
     
     async update(req, res){
-        const id = parseInt(req.params.familyId);
+        const familyId = parseInt(req.params.familyId);
         const form = req.body;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            await schemas.createUpdateFamily.validateAsync(form);
+
             // update family
-            const family = await familyDatamapper.update(form, id);
-            if(!family) throw new Error(`Cannot get family with id = ${id}`);
+            const family = await familyDatamapper.update(form, familyId);
+            if(!family) throw new Error(`Cannot get family with familyId = ${familyId}`);
 
             res.json(family);
         } catch (error) {
@@ -61,12 +71,15 @@ const familyController = {
     },
 
     async delete(req, res){
-        const id = parseInt(req.params.familyId);
+        const familyId = parseInt(req.params.familyId);
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            
             // delete family
-            const linesCount = await familyDatamapper.delete(id);
-            if(linesCount === 0) throw new Error(`Cannot delete family with id = ${id}`);
+            const linesCount = await familyDatamapper.delete(familyId);
+            if(linesCount === 0) throw new Error(`Cannot delete family with familyId = ${familyId}`);
 
             res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
@@ -80,6 +93,10 @@ const familyController = {
         const isParent = false;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            await schemas.reqParams.validateAsync(userId);
+
             // get user
             const user = await userDatamapper.findById(userId);
             if(!user) throw new Error('No user found');
@@ -100,6 +117,11 @@ const familyController = {
         const isParent = req.body.isParent;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            await schemas.reqParams.validateAsync(userId);
+            await schemas.updateRole.validateAsync(isParent);
+
             // update role
             const link = await familyDatamapper.updateRole(userId, familyId, isParent);
             if(!link) throw new Error('Cannot update link');
@@ -115,6 +137,10 @@ const familyController = {
         const userId = parseInt(req.params.userId);
         
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            await schemas.reqParams.validateAsync(userId);
+            
             // delete link
             const linesCount = await familyDatamapper.deleteLink(userId, familyId);
             if(linesCount === 0) throw new Error('Cannot delete link');
