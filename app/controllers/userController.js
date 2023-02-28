@@ -1,14 +1,18 @@
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { userDatamapper } from "../datamappers/index.js";
 import { security } from "../services/security.js";
+import { schemas } from "../services/validation.js";
 
 const userController = {
     async signin(req, res){
-        const email = req.body.email;
-        const password = req.body.password;
+        const form = req.body;
+        const email = form.email;
+        const password = form.password;
 
         try {
+            // validation
+            await schemas.connect.validateAsync(form);
+
             // find user with email
             const user = await userDatamapper.findByEmail(email);
             if(!user) throw new Error('No user found');
@@ -34,6 +38,9 @@ const userController = {
         const saltRounds = 10;
 
         try {
+            // validation
+            await schemas.createUpdateUser.validateAsync(form);
+
             // hash password
             const hash = await bcrypt.hash(form.password, saltRounds);
             form.password = hash;
@@ -63,6 +70,9 @@ const userController = {
         const userId = parseInt(req.params.userId);
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(userId);
+
             // Find user
             const user = await userDatamapper.findById(userId);
 
@@ -77,6 +87,10 @@ const userController = {
         const form = req.body;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(userId);
+            await schemas.createUpdateUser.validateAsync(form);
+
             // update user
             const user = await userDatamapper.update(form, userId);
             if(!user) throw new Error('Impossible to update user');
@@ -94,6 +108,9 @@ const userController = {
         const userId = parseInt(req.params.userId);
         
         try {
+            // validation
+            await schemas.reqParams.validateAsync(userId);
+
             // delete user
             const linesCount = await userDatamapper.delete(userId);
             if(linesCount === 0) throw new Error(`Cannot delete user with id = ${userId}`);

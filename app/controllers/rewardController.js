@@ -1,4 +1,5 @@
 import { rewardDatamapper } from "../datamappers/index.js";
+import { schemas } from "../services/validation.js";
 
 const rewardController = {
     async create(req, res){
@@ -6,6 +7,10 @@ const rewardController = {
         const form = req.body;
         
         try {
+            // validation
+            await schemas.reqParams.validateAsync(familyId);
+            await schemas.createReward.validateAsync(form);
+
             // create reward
             const reward = await rewardDatamapper.create(form, familyId);
             if(!reward) throw new Error('Cannot create reward');
@@ -21,6 +26,10 @@ const rewardController = {
         const form = req.body;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(rewardId);
+            await schemas.updateReward.validateAsync(form);
+            
             // update reward
             const reward = await rewardDatamapper.update(form, rewardId);
             if(!reward) throw new Error('Cannot update reward');
@@ -35,6 +44,9 @@ const rewardController = {
         const rewardId = req.params.rewardId;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(rewardId);
+
             // delete reward
             const linesCount = await rewardDatamapper.delete(rewardId);
             if(!linesCount) throw new Error(`Cannot delete reward with rewardId = ${rewardId}`);
@@ -50,6 +62,10 @@ const rewardController = {
         const userId = req.params.userId;
 
         try {
+            // validation
+            await schemas.reqParams.validateAsync(rewardId);
+            await schemas.reqParams.validateAsync(userId);
+            
             // TODO Vérifier si l'utilisateur a assez de crédits
 
             // update reward

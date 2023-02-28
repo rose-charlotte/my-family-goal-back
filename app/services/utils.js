@@ -1,7 +1,7 @@
 import { rewardDatamapper, taskDatamapper } from '../datamappers/index.js';
 
 const utils = {
-    async getFamilyId(){
+    async getFamilyId(req, res){
         let familyId;
         try {
             if(req.params.familyId){
