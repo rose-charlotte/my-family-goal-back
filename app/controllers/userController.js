@@ -14,7 +14,7 @@ const userController = {
             await schemas.connect.validateAsync(form);
 
             // find user with email
-            const user = await userDatamapper.findByEmail(email);
+            const user = await userDatamapper.findByEmailWithPassword(email);
             if(!user) throw new Error('No user found');
             
             // check password
@@ -35,18 +35,18 @@ const userController = {
     
     async signup(req, res){
         const form = req.body;
-        const saltRounds = 10;
+        const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
         try {
             // validation
-            await schemas.createUpdateUser.validateAsync(form);
+            await schemas.createUser.validateAsync(form);
 
             // hash password
             const hash = await bcrypt.hash(form.password, saltRounds);
             form.password = hash;
 
             // Check if email already exist
-            const emailFound = await userDatamapper.findByEmail(form.email);
+            const emailFound = await userDatamapper.findEmail(form.email);
             if(emailFound) throw new Error('Email already exist');
 
             // Check if pseudo already exist
@@ -85,11 +85,21 @@ const userController = {
     async update(req, res){
         const userId = parseInt(req.params.userId);
         const form = req.body;
+        const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
         try {
             // validation
             await schemas.reqParams.validateAsync(userId);
-            await schemas.createUpdateUser.validateAsync(form);
+            await schemas.updateUser.validateAsync(form);
+
+            // get user & password
+            const currentUser = await userDatamapper.findByIdWithPassword(userId);
+            const isValidPassword = await bcrypt.compare(form.password, currentUser.password);
+            if (currentUser && !isValidPassword) throw new Error('Invalid Password');
+
+            // hash new password
+            const hash = await bcrypt.hash(form.password, saltRounds);
+            form.newPassword = hash;
 
             // update user
             const user = await userDatamapper.update(form, userId);

@@ -70,7 +70,7 @@ const schemas = {
 			.required()
 	}),
 
-	createUpdateUser : Joi.object({
+	createUser : Joi.object({
 		firstname : Joi.string()
 			.required(),
 		lastname : Joi.string()
@@ -80,7 +80,28 @@ const schemas = {
 			.required(),
 		email : Joi.string()
 			.pattern(new RegExp('^([a-zA-Z0-9]+[-_.]?)*[a-zA-Z0-9]+@[a-zA-Z0-9]+[-]?[a-zA-Z0-9]+.[a-z]{2,}$'))
+			.required(),
+		password : Joi.string()
+			.required()
+	}),
+	
+	updateUser : Joi.object({
+		firstname : Joi.string()
+			.required(),
+		lastname : Joi.string()
+			.required(),
+		pseudo : Joi.string()
+			.pattern(new RegExp('^([a-zA-Z0-9]+[-_.]?)*[a-zA-Z0-9]+$'))
+			.required(),
+		email : Joi.string()
+			.pattern(new RegExp('^([a-zA-Z0-9]+[-_.]?)*[a-zA-Z0-9]+@[a-zA-Z0-9]+[-]?[a-zA-Z0-9]+.[a-z]{2,}$'))
+			.required(),
+		password : Joi.string()
+			.required(),
+		newPassword : Joi.string()
+			.required()
 	})
+	
 }
 
 export { schemas }

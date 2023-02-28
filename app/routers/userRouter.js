@@ -39,7 +39,7 @@ export {userRouter};
 /**
  * Infos de retour de connexion avec le token
  * @typedef {object} validConnect
- * @property {user} user.required - Infos du user
+ * @property {memberSimple} user.required - Infos du user
  * @property {string} token.required - Token de connexion
  */
 
@@ -60,6 +60,8 @@ export {userRouter};
  * @property {string} lastname.required - Nom de l'utilisateur
  * @property {string} pseudo.required - Pseudo de l'utilisateur
  * @property {string} email.required - Email de l'utilisateur
+ * @property {string} password.required - Mot de passe de l'utilisateur
+ * @property {string} newPassword.required - Nouveau mot de passe
  */
 
 // ROUTES
