@@ -1,26 +1,29 @@
 import express from "express";
 const userRouter = express.Router();
 import { userController } from "../controllers/index.js";
+import { security } from "../services/security.js";
 
 // Authentification
 userRouter.post('/signin', userController.signin);
 userRouter.post('/signup', userController.signup);
 
 // CRUD user
-userRouter.get('/user/:id', userController.get);
-userRouter.patch('/user/:id', userController.update);
-userRouter.delete('/user/:id', userController.delete);
+userRouter.get('/user/:userId', security.validateToken, security.checkIsOwnerToHisAccount, userController.get);
+userRouter.patch('/user/:userId', security.validateToken, security.checkIsOwnerToHisAccount, userController.update);
+userRouter.delete('/user/:userId', security.validateToken, security.checkIsOwnerToHisAccount, userController.delete);
 
 export {userRouter};
 
 
 // * SWAGGER DOC * \\
 
+// SCHEMAS
+
 /**
  * Infos d'un utilisateur
  * @typedef {object} user
  * @property {integer} id.required - id de l'utilisateur
- * @property {string} fistname.required - Prénom de l'utilisateur
+ * @property {string} firstname.required - Prénom de l'utilisateur
  * @property {string} lastname.required - Nom de l'utilisateur
  * @property {string} pseudo.required - Pseudo de l'utilisateur
  * @property {string} email.required - Email de l'utilisateur
@@ -41,6 +44,27 @@ export {userRouter};
  */
 
 /**
+ * Infos de création de compte
+ * @typedef {object} signup
+ * @property {string} firstname.required - Prénom de l'utilisateur
+ * @property {string} lastname.required - Nom de l'utilisateur
+ * @property {string} pseudo.required - Pseudo de l'utilisateur
+ * @property {string} email.required - Email de l'utilisateur
+ * @property {string} password.required - Mot de passe de l'utilisateur
+*/
+
+/**
+ * Infos de modification de compte
+ * @typedef {object} updateUser
+ * @property {string} firstname.required - Prénom de l'utilisateur
+ * @property {string} lastname.required - Nom de l'utilisateur
+ * @property {string} pseudo.required - Pseudo de l'utilisateur
+ * @property {string} email.required - Email de l'utilisateur
+ */
+
+// ROUTES
+
+/**
  * POST /signin
  * @summary Permet de se connecter
  * @tags User
@@ -49,52 +73,36 @@ export {userRouter};
  */
 
 /**
- * Infos de création de compte
- * @typedef {object} signup
- * @property {string} fistname.required - Prénom de l'utilisateur
- * @property {string} lastname.required - Nom de l'utilisateur
- * @property {string} pseudo.required - Pseudo de l'utilisateur
- * @property {string} email.required - Email de l'utilisateur
- * @property {string} password.required - Mot de passe de l'utilisateur
- */
-
-/**
  * POST /signup
- * @summary Permet de se connecter
+ * @summary Permet de se créer son compte et se connecter
  * @tags User
  * @param {signup} request.body.required - Infos de création de compte utilisateur
  * @return {validConnect} 200 - success response - application/json
  */
 /**
- * GET /user/{id}
+ * GET /user/{userId}
  * @summary Récupère toutes les infos d'un utilisateur
+ * @security TokenAuth
  * @tags User
- * @param {integer} id.path - id du user
+ * @param {integer} userId.path - id du user
  * @return {memberSimple} 200 - success response - application/json
  */
 
 /**
- * Infos de modification de compte
- * @typedef {object} updateUser
- * @property {string} fistname.required - Prénom de l'utilisateur
- * @property {string} lastname.required - Nom de l'utilisateur
- * @property {string} pseudo.required - Pseudo de l'utilisateur
- * @property {string} email.required - Email de l'utilisateur
- */
-
-/**
- * PATCH /user/{id}
+ * PATCH /user/{userId}
  * @summary Modifie les infos d'un utilisateur
+ * @security TokenAuth
  * @tags User
- * @param {integer} id.path - id du user
+ * @param {integer} userId.path - id du user
  * @param {updateUser} request.body.required - Infos de création de compte utilisateur
  * @return {validConnect} 200 - success response - application/json
  */
 
 /**
- * DELETE /user/{id}
+ * DELETE /user/{userId}
  * @summary Supprime un utilisateur
+ * @security TokenAuth
  * @tags User
- * @param {integer} id.path - id du user
+ * @param {integer} userId.path - id du user
  * @return {string} 200 - success response - application/json
  */

@@ -27,7 +27,7 @@ const familyController = {
     },
     
     async get(req, res){
-        const id = parseInt(req.params.id);
+        const id = parseInt(req.params.familyId);
         const user = req.user;
 
         try {
@@ -46,7 +46,7 @@ const familyController = {
     },
     
     async update(req, res){
-        const id = parseInt(req.params.id);
+        const id = parseInt(req.params.familyId);
         const form = req.body;
 
         try {
@@ -61,7 +61,7 @@ const familyController = {
     },
 
     async delete(req, res){
-        const id = parseInt(req.params.id);
+        const id = parseInt(req.params.familyId);
 
         try {
             // delete family

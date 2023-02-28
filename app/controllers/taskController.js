@@ -2,7 +2,7 @@ import { taskDatamapper } from "../datamappers/index.js";
 
 const taskController = {
     async create(req, res){
-        const familyId = req.params.id;
+        const familyId = req.params.familyId;
         const form = req.body;
 
         try {
@@ -17,12 +17,12 @@ const taskController = {
     },
 
     async update(req, res){
-        const id = req.params.id;
+        const taskId = req.params.taskId;
         const form = req.body;
 
         try {
             // update task
-            const task = await taskDatamapper.update(form, id);
+            const task = await taskDatamapper.update(form, taskId);
             if(!task) throw new Error('Cannot update task');
 
             return res.json(task);
@@ -32,12 +32,12 @@ const taskController = {
     },
 
     async delete(req, res){
-        const id = req.params.id;
+        const taskId = req.params.taskId;
 
         try {
             // delete task
-            const linesCount = await taskDatamapper.delete(id);
-            if(!linesCount) throw new Error(`Cannot delete task with id = ${id}`);
+            const linesCount = await taskDatamapper.delete(taskId);
+            if(!linesCount) throw new Error(`Cannot delete task with taskId = ${taskId}`);
 
             return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {

@@ -26,8 +26,8 @@ const options = {
     // Glob pattern to find your jsdoc files (multiple patterns can be added in an array)
     filesPattern: './**/*.js',
     swaggerUIPath: '/api-docs'
-  };
-  expressJSDocSwagger(app)(options);
+};
+expressJSDocSwagger(app)(options);
 
 // Config cors
 import cors from "cors";

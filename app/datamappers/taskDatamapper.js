@@ -11,6 +11,16 @@ const taskDatamapper = {
         return result.rows[0];
     },
 
+    async findById(taskId){
+        const sql = `
+            SELECT *
+            FROM task
+            WHERE id = $1;`;
+        const values = [taskId];
+        const result = await client.query(sql, values);
+        return result.rows[0];
+    },
+
     async update(form, id){
         const sql = `
             UPDATE task
