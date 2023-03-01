@@ -3,7 +3,7 @@ import { schemas } from "../services/validation.js";
 
 const taskController = {
     async create(req, res){
-        const familyId = req.params.familyId;
+        const familyId = parseInt(req.params.familyId);
         const form = req.body;
 
         try {
@@ -22,7 +22,7 @@ const taskController = {
     },
 
     async update(req, res){
-        const taskId = req.params.taskId;
+        const taskId = parseInt(req.params.taskId);
         const form = req.body;
 
         try {
@@ -41,7 +41,7 @@ const taskController = {
     },
 
     async delete(req, res){
-        const taskId = req.params.taskId;
+        const taskId = parseInt(req.params.taskId);
 
         try {
             // validation
@@ -58,8 +58,8 @@ const taskController = {
     },
 
     async complete(req, res){
-        const taskId = req.params.taskId;
-        const userId = req.params.userId;
+        const taskId = parseInt(req.params.taskId);
+        const userId = parseInt(req.params.userId);
         
         try {
             // validation
