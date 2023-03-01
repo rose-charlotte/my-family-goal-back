@@ -164,7 +164,7 @@ export {familyRouter};
 
 /**
  * DELETE /family/{familyId}/user/{userId}
- * @summary Supprime une famille
+ * @summary Supprime un membre d'une famille
  * @security TokenAuth
  * @tags Link
  * @param {integer} familyId.path - id de la famille
