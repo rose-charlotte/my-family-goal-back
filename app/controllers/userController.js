@@ -86,24 +86,31 @@ const userController = {
         const userId = parseInt(req.params.userId);
         const form = req.body;
         const saltRounds = parseInt(process.env.SALT_ROUNDS);
+        let user;
 
         try {
             // validation
             await schemas.reqParams.validateAsync(userId);
             await schemas.updateUser.validateAsync(form);
 
-            // get user & password
-            const currentUser = await userDatamapper.findByIdWithPassword(userId);
-            const isValidPassword = await bcrypt.compare(form.password, currentUser.password);
-            if (currentUser && !isValidPassword) throw new Error('Invalid Password');
+            if (form.password && form.newPassword) {
+                // get user & password
+                const currentUser = await userDatamapper.findByIdWithPassword(userId);
+                const isValidPassword = await bcrypt.compare(form.password, currentUser.password);
+                if (currentUser && !isValidPassword) throw new Error('Invalid Password');
+    
+                // hash new password
+                const hash = await bcrypt.hash(form.newPassword, saltRounds);
+                form.newPassword = hash;
 
-            // hash new password
-            const hash = await bcrypt.hash(form.newPassword, saltRounds);
-            form.newPassword = hash;
-
-            // update user
-            const user = await userDatamapper.update(form, userId);
-            if(!user) throw new Error('Impossible to update user');
+                // update user with password
+                user = await userDatamapper.updateWithPassword(form, userId);
+                if(!user) throw new Error('Impossible to update user');
+            } else {
+                // update user
+                user = await userDatamapper.update(form, userId);
+                if(!user) throw new Error('Impossible to update user');
+            }
 
             // create token jwt
             const token = security.createToken(user);
