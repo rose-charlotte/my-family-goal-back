@@ -64,7 +64,7 @@ const familyController = {
             const family = await familyDatamapper.update(form, familyId);
             if(!family) throw new Error(`Cannot get family with familyId = ${familyId}`);
 
-            res.json(family);
+            return res.json(family);
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -81,7 +81,7 @@ const familyController = {
             const linesCount = await familyDatamapper.delete(familyId);
             if(linesCount === 0) throw new Error(`Cannot delete family with familyId = ${familyId}`);
 
-            res.json(`Count of lines deleted : ${linesCount}`);
+            return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -145,7 +145,14 @@ const familyController = {
             const linesCount = await familyDatamapper.deleteLink(userId, familyId);
             if(linesCount === 0) throw new Error('Cannot delete link');
 
-            res.json(`Count of lines deleted : ${linesCount}`);
+            // delete family if has no member
+            const link = await familyDatamapper.getLinksByFamilyId(familyId);
+            if (!link) {
+                await familyDatamapper.delete(familyId);
+                return res.json(`Member & family deleted`);
+            }
+
+            return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
             return res.status(500).json(error.message);
         }

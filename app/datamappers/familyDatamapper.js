@@ -104,6 +104,16 @@ const familyDatamapper = {
         return result.rows[0];
     },
 
+    async getLinksByFamilyId(familyId) {
+        const sql = `
+            SELECT *
+            FROM user_has_family
+            WHERE family_id = $1`;
+        const values = [familyId];
+        const result = await client.query(sql, values);
+        return result.rows[0];
+    },
+
     async updateRole(userId, familyId, isParent){
         const sql = `
             UPDATE user_has_family
