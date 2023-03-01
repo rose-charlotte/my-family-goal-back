@@ -125,7 +125,7 @@ const userController = {
             const linesCount = await userDatamapper.delete(userId);
             if(linesCount === 0) throw new Error(`Cannot delete user with id = ${userId}`);
 
-            res.json(`Count of lines deleted : ${linesCount}`);
+            return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
             return res.status(500).json(error.message);            
         }
