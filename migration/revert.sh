@@ -1,3 +1,3 @@
 export PGUSER=postgres
 
-sqitch revert 1.init_db
+sqitch revert 3.move_table_role

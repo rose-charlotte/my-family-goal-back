@@ -43,21 +43,8 @@ const userDatamapper = {
     
     async findById(id){
         const sql = `
-            SELECT id, firstname, lastname, pseudo, email, (
-                SELECT json_agg(
-                    json_build_object(
-                        'id', id,
-                        'name', name,
-                        'credit', credit,
-                        'isParent', "isParent"
-                    )
-                ) AS families
-                FROM family
-                JOIN user_has_family ON family.id = family_id
-                WHERE user_id = $1
-            )
-            FROM "user"
-            WHERE id = $1;`;
+            SELECT *
+            FROM getUserById($1);`;
         const values = [id];
         const result = await client.query(sql, values);
         return result.rows[0];
