@@ -96,10 +96,8 @@ const schemas = {
 		email : Joi.string()
 			.pattern(new RegExp('^([a-zA-Z0-9]+[-_.]?)*[a-zA-Z0-9]+@[a-zA-Z0-9]+[-]?[a-zA-Z0-9]+.[a-z]{2,}$'))
 			.required(),
-		password : Joi.string()
-			.required(),
+		password : Joi.string(),
 		newPassword : Joi.string()
-			.required()
 	})
 	
 }
