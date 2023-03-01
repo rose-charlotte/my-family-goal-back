@@ -1,9 +1,9 @@
-import { rewardDatamapper } from "../datamappers/index.js";
+import { rewardDatamapper, userDatamapper } from "../datamappers/index.js";
 import { schemas } from "../services/validation.js";
 
 const rewardController = {
     async create(req, res){
-        const familyId = req.params.familyId;
+        const familyId = parseInt(req.params.familyId);
         const form = req.body;
         
         try {
@@ -22,8 +22,8 @@ const rewardController = {
     },
     
     async update(req, res){
-        const rewardId = req.params.rewardId;
-        const form = req.body;
+        const rewardId = parseInt(req.params.rewardId);
+        const form = parseInt(req.body);
 
         try {
             // validation
@@ -41,7 +41,7 @@ const rewardController = {
     },
     
     async delete(req, res){
-        const rewardId = req.params.rewardId;
+        const rewardId = parseInt(req.params.rewardId);
 
         try {
             // validation
@@ -53,27 +53,32 @@ const rewardController = {
 
             return res.json(`Count of lines deleted : ${linesCount}`);
         } catch (error) {
-            return res.status(500).json(error.message);  
+            return res.status(500).json(error.message);
         }
     },
     
     async purchase(req, res){
-        const rewardId = +req.params.rewardId;
-        const userId = req.params.userId;
+        const rewardId = parseInt(req.params.rewardId);
+        const userId = parseInt(req.params.userId);
 
         try {
             // validation
             await schemas.reqParams.validateAsync(rewardId);
             await schemas.reqParams.validateAsync(userId);
             
-            // TODO Vérifier si l'utilisateur a assez de crédits
+            // check if user has enought credit
+            const user = await userDatamapper.findById(userId);
+            const reward = await rewardDatamapper.findById(rewardId);
+            const link = user.families.find(family => family.id === reward.family_id);
+            const creditBeforePurchase = link.credit;
+            if(reward.price > creditBeforePurchase) throw new Error('insufficient credits');
 
             // update reward
-            const reward = await rewardDatamapper.purchase(rewardId);
-            if(!reward) throw new Error('Cannot purchase reward');
+            const rewardPurchased = await rewardDatamapper.purchase(rewardId);
+            if(!rewardPurchased) throw new Error('Cannot purchase reward');
 
             // update credit
-            const credit = await rewardDatamapper.updateCredit(userId, reward.family_id, reward.price);
+            const credit = await rewardDatamapper.updateCredit(userId, rewardPurchased.family_id, rewardPurchased.price);
             if(!credit) throw new Error('Cannot update credit');
 
             return res.json(credit);
