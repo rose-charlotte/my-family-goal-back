@@ -93,7 +93,10 @@ const userController = {
             await schemas.reqParams.validateAsync(userId);
             await schemas.updateUser.validateAsync(form);
 
-            if (form.password && form.newPassword) {
+            if (form.newPassword) {
+                // check if password is present
+                if(!form.password) throw new Error('To update password, please supply old password');
+
                 // get user & password
                 const currentUser = await userDatamapper.findByIdWithPassword(userId);
                 const isValidPassword = await bcrypt.compare(form.password, currentUser.password);
