@@ -23,51 +23,8 @@ const familyDatamapper = {
 
     async findById(id){
         const sql = `
-            SELECT id, name, (
-                    SELECT json_agg(
-                        json_build_object(
-                            'id', id,
-                            'title', title,
-                            'description', description,
-                            'gain', gain,
-                            'isComplete', "isComplete",
-                            'family_id', family_id
-                        )
-                    ) AS tasks
-                    FROM task
-                    WHERE family_id = $1
-                ),
-                (
-                    SELECT json_agg(
-                        json_build_object(
-                            'id', id,
-                            'title', title,
-                            'price', price,
-                            'isPurchase', "isPurchase",
-                            'family_id', family_id
-                        )
-                    ) AS rewards
-                    FROM reward
-                    WHERE family_id = $1
-                ),
-                (
-                    SELECT json_agg(
-                        json_build_object(
-                            'id', id,
-                            'firstname', firstname,
-                            'lastname', lastname,
-                            'pseudo', pseudo,
-                            'email', email,
-                            'isParent', "isParent",
-                            'credit', credit
-                        )
-                    ) AS members
-                    FROM "user"
-                    JOIN user_has_family ON user_id = "user".id
-                    WHERE family_id = $1
-                )
-            FROM FAMILY
-            WHERE family.id = $1;`;
+            SELECT *
+            FROM getFamilyById($1);`;
         const values = [id];
         const result = await client.query(sql, values);
         return result.rows[0];

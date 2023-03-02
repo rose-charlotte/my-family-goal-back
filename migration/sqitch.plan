@@ -4,3 +4,5 @@
 1.init_db 2023-02-20T13:29:47Z franc <franc@Frapuks> # create domain, table and index
 2.add_constraint 2023-02-23T09:25:35Z franc <franc@Frapuks> # Add constraint ON DELETE CASCADE on table user_has_family
 3.move_table_role 2023-02-23T10:56:06Z franc <franc@Frapuks> # Move fkey role_id on table user_has_family
+4.create_function 2023-03-01T15:36:23Z franc <franc@Frapuks> # Create function SQL for family_infos and user_infos
+5.add_primary_key 2023-03-01T16:02:49Z franc <franc@Frapuks> # Add primary key on table user_has_family
