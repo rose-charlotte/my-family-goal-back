@@ -1,4 +1,5 @@
 import { familyDatamapper, userDatamapper } from "../datamappers/index.js";
+import { utils } from "../services/utils.js";
 import { schemas } from "../services/validation.js";
 
 const familyController = {
@@ -146,13 +147,9 @@ const familyController = {
             if(linesCount === 0) throw new Error('Cannot delete link');
 
             // delete family if has no member
-            const link = await familyDatamapper.getLinksByFamilyId(familyId);
-            if (!link) {
-                await familyDatamapper.delete(familyId);
-                return res.json(`Member & family deleted`);
-            }
+            const isFamilyDeleted = await utils.deleteFamilyIfNoMembers(familyId);
 
-            return res.json(`Count of lines deleted : ${linesCount}`);
+            return res.json(`Member deleted : ${linesCount} / Family deleted : ${isFamilyDeleted}`);
         } catch (error) {
             return res.status(500).json(error.message);
         }

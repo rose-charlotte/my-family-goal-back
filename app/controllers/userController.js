@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import { userDatamapper } from "../datamappers/index.js";
 import { security } from "../services/security.js";
+import { utils } from '../services/utils.js';
 import { schemas } from "../services/validation.js";
 
 const userController = {
@@ -130,12 +131,23 @@ const userController = {
         try {
             // validation
             await schemas.reqParams.validateAsync(userId);
+            
+            // get families of user
+            const user = await userDatamapper.findById(userId);
+            const families = user.families;
 
             // delete user
             const linesCount = await userDatamapper.delete(userId);
             if(linesCount === 0) throw new Error(`Cannot delete user with id = ${userId}`);
 
-            return res.json(`Count of lines deleted : ${linesCount}`);
+            // delete families if has no member
+            let count = 0;
+            for (const family of families) {
+                const isFamilyDeleted = await utils.deleteFamilyIfNoMembers(family.id);
+                if(isFamilyDeleted) count ++;
+            }
+
+            return res.json(`User deleted : ${linesCount} / Family deleted : ${count}`);
         } catch (error) {
             return res.status(500).json(error.message);            
         }
