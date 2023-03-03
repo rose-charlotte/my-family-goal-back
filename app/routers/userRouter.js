@@ -69,7 +69,7 @@ export {userRouter};
 /**
  * POST /signin
  * @summary Permet de se connecter
- * @tags User
+ * @tags Auth
  * @param {formConnect} request.body.required - Infos de connexion d'un utilisateur
  * @return {validConnect} 200 - success response - application/json
  */
@@ -77,7 +77,7 @@ export {userRouter};
 /**
  * POST /signup
  * @summary Permet de se créer son compte et se connecter
- * @tags User
+ * @tags Auth
  * @param {signup} request.body.required - Infos de création de compte utilisateur
  * @return {validConnect} 200 - success response - application/json
  */

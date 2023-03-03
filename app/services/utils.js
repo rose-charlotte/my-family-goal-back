@@ -1,4 +1,4 @@
-import { rewardDatamapper, taskDatamapper } from '../datamappers/index.js';
+import { rewardDatamapper, taskDatamapper, familyDatamapper } from '../datamappers/index.js';
 
 const utils = {
     async getFamilyId(req, res){
@@ -19,6 +19,19 @@ const utils = {
             return familyId;
         } catch (error) {
             return res.status(500).json(error.message);
+        }
+    },
+
+    async deleteFamilyIfNoMembers(familyId){
+        try {
+            const link = await familyDatamapper.getLinksByFamilyId(familyId);
+            if (!link) {
+                await familyDatamapper.delete(familyId);
+                return true;
+            }
+            return false;
+        } catch (error) {
+            return false;
         }
     }
 }
