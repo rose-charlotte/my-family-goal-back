@@ -3,14 +3,14 @@ import { schemas } from "../services/validation.js";
 
 const searchController = {
     async searchUser(req, res){
-        const pseudo = req.body.pseudo;
+        const form = req.body;
         
         try {
             // validation
-            await schemas.searchPseudo.validateAsync(pseudo);
+            await schemas.searchPseudo.validateAsync(form);
 
             // search users
-            const users = await searchDatamapper.searchUserByPseudo(pseudo);
+            const users = await searchDatamapper.searchUserByPseudo(form.pseudo);
 
             return res.json(users);
         } catch (error) {
