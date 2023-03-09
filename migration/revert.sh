@@ -1,3 +1,3 @@
 export PGUSER=postgres
 
-sqitch revert 3.move_table_role
+sqitch revert 5.add_primary_key
