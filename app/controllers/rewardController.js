@@ -23,7 +23,7 @@ const rewardController = {
     
     async update(req, res){
         const rewardId = parseInt(req.params.rewardId);
-        const form = parseInt(req.body);
+        const form = req.body;
 
         try {
             // validation
