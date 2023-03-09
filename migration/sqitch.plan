@@ -6,3 +6,4 @@
 3.move_table_role 2023-02-23T10:56:06Z franc <franc@Frapuks> # Move fkey role_id on table user_has_family
 4.create_function 2023-03-01T15:36:23Z franc <franc@Frapuks> # Create function SQL for family_infos and user_infos
 5.add_primary_key 2023-03-01T16:02:49Z franc <franc@Frapuks> # Add primary key on table user_has_family
+6.update_function 2023-03-09T10:18:25Z franc <franc@Frapuks> # Add ORDER BY in functions
