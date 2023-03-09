@@ -134,7 +134,7 @@ const userController = {
             
             // get families of user
             const user = await userDatamapper.findById(userId);
-            const families = user.families;
+            const families = user.families || [];
 
             // delete user
             const linesCount = await userDatamapper.delete(userId);
