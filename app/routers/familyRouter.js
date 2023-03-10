@@ -90,7 +90,7 @@ export {familyRouter};
 /**
  * Formulaire de modification de role au sein d'une famille
  * @typedef {object} formRole
- * @property {boolean} IsParent.required - Détermine le role parent ou non
+ * @property {boolean} isParent.required - Détermine le role parent ou non
 */
 
 /**
@@ -99,7 +99,7 @@ export {familyRouter};
  * @property {integer} user_id.required - Id de l'utilisateur
  * @property {integer} family_id.required - Id de la famille
  * @property {integer} credit.required - Solde du crédit disponible
- * @property {boolean} IsParent.required - Détermine le role parent ou non
+ * @property {boolean} isParent.required - Détermine le role parent ou non
 */
 
 // ROUTES

@@ -115,16 +115,16 @@ const familyController = {
     async updateMember(req, res){
         const familyId = parseInt(req.params.familyId);
         const userId = parseInt(req.params.userId);
-        const isParent = req.body.isParent;
+        const form = req.body;
 
         try {
             // validation
             await schemas.reqParams.validateAsync(familyId);
             await schemas.reqParams.validateAsync(userId);
-            await schemas.updateRole.validateAsync(isParent);
+            await schemas.updateRole.validateAsync(form);
 
             // update role
-            const link = await familyDatamapper.updateRole(userId, familyId, isParent);
+            const link = await familyDatamapper.updateRole(userId, familyId, form.isParent);
             if(!link) throw new Error('Cannot update link');
 
             return res.json(link);
